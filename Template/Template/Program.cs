@@ -1,104 +1,63 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Template
 {
-    interface Ifuncion
+    interface IRumba
     {
-        public abstract void perform(string name);
-    }
-    class Lights_On : Ifuncion
-    {
-        public void perform(string name)
+        public void forward()
         {
-            Console.WriteLine("Lights turn on in " + name);
+            Console.WriteLine("Rumba goes forward");
         }
-    }
-    class Air_Condtioner_On : Ifuncion
-    {
-        public void perform(string name)
+        public void left()
         {
-            Console.WriteLine("Aircondtioner turn on in " + name);
+            Console.WriteLine("Rumba turns left");
         }
-    }
-    class Kettel_On : Ifuncion
-    {
-        public void perform(string name)
+        public void right()
         {
-            Console.WriteLine("Kettel turn on in " + name);
+            Console.WriteLine("Rumba turns right");
         }
-    }
-    class Room
-    {
-        string name;
-        List<Ifuncion> funcions;
-        public Room(string name)
+        public void sound()
         {
-            this.name = name;
-            funcions = new List<Ifuncion>();
+            Console.WriteLine("Rumb gives sound signal");
         }
-        public void add_function(Ifuncion f)
+        public void mop()
         {
-            funcions.Add(f);
+            Console.WriteLine("Rumba uses mop");
         }
-        public void remove_function(Ifuncion f)
+        public void lights()
         {
-            funcions.Remove(f);
-        }
-        public void do_function()
-        {
-            Console.WriteLine("You entered: " + name);
-            foreach (Ifuncion f in funcions)
-            {
-                f.perform(name);
-            }
+            Console.WriteLine("Rumba gives light signal");
         }
     }
-    class House
+    class Rumba_A : IRumba
     {
-        List<Room> room_list;
-        public House()
-        {
-            room_list = new List<Room>();
-            room_list.Add(new Room("Bedroom"));
-            room_list.Add(new Room("Kitchen"));
-            room_list.Add(new Room("Bathroom"));
-
-            room_list[0].add_function(new Lights_On());
-            room_list[1].add_function(new Lights_On());
-            room_list[2].add_function(new Lights_On());
-
-            room_list[0].add_function(new Air_Condtioner_On());
-            room_list[1].add_function(new Air_Condtioner_On());
-            room_list[2].add_function(new Air_Condtioner_On());
-
-            room_list[1].add_function(new Kettel_On());
-        }
-        public void Simulate()
-        {
-            string action = "";
-
-            while(action != "0")
-            {
-                Console.WriteLine("What room do you enter?");
-                Console.WriteLine("0-exit house");
-                Console.WriteLine("1-Bedroom");
-                Console.WriteLine("2-Kitchen");
-                Console.WriteLine("3-Bathroom");
-                action= Console.ReadLine();
-                if(action!="0")
-                {
-                    room_list[Convert.ToInt32(action) - 1].do_function();
-                }
-            }
-        }
+        public void mop() { }
     }
+    class Rumba_B : IRumba
+    {
+        public void lights() { }
+    }
+    
     internal class Program
     {
+        public static void simulation(IRumba r)
+        {
+            r.forward();
+            r.left();
+            r.right();
+            r.lights();
+            r.sound();
+            r.mop();
+        }
         static void Main(string[] args)
         {
-            House h = new House();
-            h.Simulate();
+            IRumba a = new Rumba_A();
+            IRumba b = new Rumba_B();
+            Console.WriteLine("Rumba_1");
+            simulation(a);
+            Console.WriteLine("Rumba_2");
+            simulation(b);
+
         }
     }
 }
